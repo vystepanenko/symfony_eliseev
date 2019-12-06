@@ -5,20 +5,35 @@ services:
       context: ./docker/development
       dockerfile: nginx.docker
     volumes:
-      - C:\Projects\symfony_eliseev:/app
+      - /home/cannibal/symfony_eliseev:/app
     depends_on:
       - symfony-php-fpm
     ports:
-      - "8080:80"
+      - "8888:80"
   symfony-php-fpm:
     build:
       context: ./docker/development
       dockerfile: php-fpm.docker
     volumes:
-      - C:\Projects\symfony_eliseev:/app
+      - /home/cannibal/symfony_eliseev:/app
   symfony-php-cli:
     build:
       context: ./docker/development
       dockerfile: php-cli.docker
     volumes:
-      - C:\Projects\symfony_eliseev:/app
+      - /home/cannibal/symfony_eliseev:/app
+      - composer:/root/.composer/chache
+  symfony-postgresql:
+    image: postgres:11.2-alpine
+    volumes:
+    - symfony-postgresql:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: app
+    ports:
+    - "54321:5432"
+
+volumes:
+  symfony-postgresql:
+  composer:
