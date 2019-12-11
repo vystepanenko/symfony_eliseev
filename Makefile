@@ -29,3 +29,6 @@ makeController:
 
 clearCache:
 	docker-compose run --rm symfony-php-cli php bin/console cache:clear
+
+test:
+	docker-compose run --rm symfony-php-cli php bin/phpunit

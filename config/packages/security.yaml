@@ -16,9 +16,7 @@ security:
             security: false
         main:
             anonymous: true
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
+
 
                 # where to redirect after logout
                 # target: app_any_route
