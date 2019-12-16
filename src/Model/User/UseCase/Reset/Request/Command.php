@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Model\User\UseCase\Reset;
+namespace App\Model\User\UseCase\Reset\Request;
 
 
 class Command

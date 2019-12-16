@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Model\User\UseCase\Reset;
+namespace App\Model\User\UseCase\Reset\Request;
 
 
 use App\Model\Flusher;
@@ -9,7 +9,6 @@ use App\Model\User\Entity\User\Email;
 use App\Model\User\Entity\User\UserRepository;
 use App\Model\User\Service\ResetTokenizer;
 use App\Model\User\Service\ResetTokenSender;
-use phpDocumentor\Reflection\Types\This;
 
 class Handler
 {
@@ -18,17 +17,21 @@ class Handler
     private $flusher;
     private $sender;
 
-    public function __construct(UserRepository $users, ResetTokenizer $tokenizer, Flusher $flusher, ResetTokenSender $sender)
-    {
+    public function __construct(
+        UserRepository $users,
+        ResetTokenizer $tokenizer,
+        Flusher $flusher,
+        ResetTokenSender $sender
+    ) {
         $this->users = $users;
         $this->tokenizer = $tokenizer;
         $this->flusher = $flusher;
         $this->sender = $sender;
     }
 
-    public function handle(Command $command):void
+    public function handle(Command $command): void
     {
-        $user=$this->users->getByEmail(new Email($command->email));
+        $user = $this->users->getByEmail(new Email($command->email));
 
         $user->requestPasswordReset(
             $this->tokenizer->generate(),
