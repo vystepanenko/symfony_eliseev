@@ -9,7 +9,7 @@ use App\Model\User\Entity\User\Email;
 use App\Model\User\Entity\User\Id;
 use App\Model\User\Entity\User\User;
 use App\Model\User\Entity\User\UserRepository;
-use App\Model\User\Service\ConfirmTokenizer;
+use App\Model\User\Service\SignUpConfirmTokenizer;
 use App\Model\User\Service\ConfirmTokenSender;
 use App\Model\User\Service\PasswordHasher;
 
@@ -24,7 +24,7 @@ class Handler
     public function __construct(
         UserRepository $users,
         PasswordHasher $hasher,
-        ConfirmTokenizer $tokenizer,
+        SignUpConfirmTokenizer $tokenizer,
         ConfirmTokenSender $sender,
         Flusher $flusher
     ) {
@@ -46,6 +46,9 @@ class Handler
         $user = new User(
             Id::next(),
             new \DateTimeImmutable(),
+        );
+
+        $user->signUpByEmail(
             $email,
             $this->hasher->hash($command->password),
             $token = $this->tokenizer->generate()
@@ -57,42 +60,3 @@ class Handler
 
     }
 }
-
-
-///**
-// * Class Handler
-// * @package App\Model\User\UseCase\SignUp\Request
-// */
-//class Handler
-//{
-//    private  $em;
-//
-//    public function __construct(EntityManagerInterface $em)
-//    {
-//        $this->em = $em;
-//    }
-//
-//    /**
-//     * @param Command $command
-//     * @throws \Exception
-//     */
-//    public function handle(Command $command): void
-//    {
-//        $email = mb_strtolower($command->email);
-//
-//        if ($this->em->getRepository(User::class)->findOneBy(['email'=>$email])){
-//            throw new \DomainException('User already exist');
-//        }
-//
-//
-//        $user = new User(
-//            Uuid::uuid4()->toString(),
-//            new \DateTimeImmutable(),
-//            $email,
-//            password_hash($command->password, PASSWORD_ARGON2I)
-//        );
-//
-//        $this->em->persist($user);
-//        $this->em->flush();
-//    }
-//}

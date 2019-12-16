@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Tests\Unit\Model\User\Entity\User;
+namespace App\Tests\Unit\Model\User\Entity\User\SignUp;
 
 
 use App\Model\User\Entity\User\Email;
@@ -15,11 +15,15 @@ class ConfirmTest extends TestCase
     {
         $user = new  User(
             $id = Id::next(),
-            $date = new \DateTimeImmutable(),
+            $date = new \DateTimeImmutable()
+        );
+
+        $user->signUpByEmail(
             $email = new Email('test@app.test'),
             $hash = 'hash',
             $token = 'token'
         );
+
         $user->confirmSignUp();
 
         self::assertFalse($user->isWait());
@@ -32,7 +36,10 @@ class ConfirmTest extends TestCase
     {
         $user = new  User(
             $id = Id::next(),
-            $date = new \DateTimeImmutable(),
+            $date = new \DateTimeImmutable()
+        );
+
+        $user->signUpByEmail(
             $email = new Email('test@app.test'),
             $hash = 'hash',
             $token = 'token'
